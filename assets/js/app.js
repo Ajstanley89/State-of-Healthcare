@@ -5,10 +5,10 @@ var svgHeight = 500;
 
 // define object for chart margins
 var margins = {
-    top: 100,
-    right: 100,
-    bottom: 100,
-    left: 100
+    top: 60,
+    right: 60,
+    bottom: 60,
+    left: 60
 };
 
 // def demensions of the chart
@@ -23,7 +23,7 @@ var svg = d3.select('#scatter')
 
 // append a group area and set margins
 var chartGroup = svg.append('g')
-    .attr('transfrom', `translate(${margins.left}, ${margins.top})`);
+    .attr('transform', `translate(${margins.left}, ${margins.top})`);
 
 // Read data from csv
 d3.csv('assets/data/data.csv').then(function(healthData) {
@@ -72,6 +72,13 @@ d3.csv('assets/data/data.csv').then(function(healthData) {
         .attr('r', '10')
         .attr('fill', 'blue')
         .attr('opacity', '0.5')
-        .attr('text', d => d.abbr);
 
+    // add text abbrevaitions
+    chartGroup.selectAll('text')
+        .data(healthData)
+        .enter()
+        .append('text')
+        .attr('cx', d => xLinearScale(d.poverty))
+        .attr('cy', d => yLinearScale(d.noHealthInsurance))
+        .text(healthData.abbr);
 });
