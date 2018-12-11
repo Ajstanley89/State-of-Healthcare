@@ -36,3 +36,11 @@ body {
   fill: #000000;
   text-anchor: middle;
 }
+
+.abbrText {
+  font-family: sans-serif;
+  fill: black;
+  text-anchor: middle;
+  font-size: 7px
+}
+

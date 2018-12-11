@@ -38,10 +38,14 @@ d3.csv('assets/data/data.csv').then(function(healthData) {
         element.poverty = +element.poverty;
     });
 
+    var minPov = d3.min(healthData, d => d.poverty);
+    var maxPov = d3.max(healthData, d => d.poverty);
+
     // Configure linear scale for poverty x axis
     var xLinearScale = d3.scaleLinear()
         .range([0, chartWidth])
-        .domain(d3.extent(healthData, d => d.poverty));
+        .domain([minPov - 2, maxPov]);
+        // .domain(d3.extent(healthData, d => d.poverty));
       
     
     // linear scake for y axis
@@ -81,7 +85,8 @@ d3.csv('assets/data/data.csv').then(function(healthData) {
         .append('text')
         .attr('x', d => xLinearScale(d.poverty))
         .attr('y', d => yLinearScale(d.noHealthInsurance))
-        .text('', d => d.abbr); //healthData.abbr);
+        .attr('class', 'abbrText')
+        .text(d => d.abbr); //healthData.abbr);
 
     // Create axes labels
     // y axis label
