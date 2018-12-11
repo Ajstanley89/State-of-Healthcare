@@ -16,7 +16,7 @@ var chartWidth = svgWidth - margins.left - margins.right;
 var chartHeight = svgHeight - margins.top - margins.bottom;
 
 // select #scatter using d3, append svg
-var svg = d3.select('#scatter')
+var svg = d3.selectAll('#scatter')
     .append('svg')
     .attr('width', svgWidth)
     .attr('height', svgHeight);
@@ -33,6 +33,7 @@ d3.csv('assets/data/data.csv').then(function(healthData) {
     // Verify data in the console 
     console.log(healthData);
 
+    // cast data as a number
     healthData.forEach(element => {
         element.noHealthInsurance = +element.noHealthInsurance;
         element.poverty = +element.poverty;
@@ -67,26 +68,32 @@ d3.csv('assets/data/data.csv').then(function(healthData) {
         .call(leftAxis);
 
     // Create the circles for the scatter plot
+    var bubbleR = 10;
+
     chartGroup.selectAll('circle')
         .data(healthData)
         .enter()
         .append('circle')
         .attr('cx', d => xLinearScale(d.poverty))
         .attr('cy', d => yLinearScale(d.noHealthInsurance))
-        .attr('r', '10')
+        .attr('r', bubbleR)
         .attr('fill', 'blue')
         .attr('opacity', '0.5');
-        // .attr('text', d => d.abbr);
 
     // add text abbrevaitions
-    chartGroup.selectAll('text')
+    var abbrFontSize = 10;
+    chartGroup.selectAll('text.abbrText')
         .data(healthData)
         .enter()
         .append('text')
         .attr('x', d => xLinearScale(d.poverty))
-        .attr('y', d => yLinearScale(d.noHealthInsurance))
+        .attr('y', d => yLinearScale(d.noHealthInsurance)+abbrFontSize/4)
         .attr('class', 'abbrText')
-        .text(d => d.abbr); //healthData.abbr);
+        .attr('font-size', abbrFontSize)
+        .text(data => {
+            console.log(data.abbr);
+            return (data.abbr);
+            });
 
     // Create axes labels
     // y axis label

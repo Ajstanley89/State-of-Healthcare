@@ -39,8 +39,7 @@ body {
 
 .abbrText {
   font-family: sans-serif;
-  fill: black;
-  text-anchor: middle;
-  font-size: 7px
+  fill: whitesmoke;
+  text-anchor: middle; 
 }
 
