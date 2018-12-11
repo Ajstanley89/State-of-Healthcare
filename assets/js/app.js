@@ -1,14 +1,14 @@
 // @TODO: YOUR CODE HERE!
 // SVG setup
-var svgWidth = 1000;
+var svgWidth = 960;
 var svgHeight = 500;
 
 // define object for chart margins
 var margins = {
-    top: 60,
-    right: 60,
+    top: 20,
+    right: 40,
     bottom: 60,
-    left: 60
+    left: 100
 };
 
 // def demensions of the chart
@@ -71,14 +71,31 @@ d3.csv('assets/data/data.csv').then(function(healthData) {
         .attr('cy', d => yLinearScale(d.noHealthInsurance))
         .attr('r', '10')
         .attr('fill', 'blue')
-        .attr('opacity', '0.5')
+        .attr('opacity', '0.5');
+        // .attr('text', d => d.abbr);
 
     // add text abbrevaitions
     chartGroup.selectAll('text')
         .data(healthData)
         .enter()
         .append('text')
-        .attr('cx', d => xLinearScale(d.poverty))
-        .attr('cy', d => yLinearScale(d.noHealthInsurance))
-        .text(healthData.abbr);
+        .attr('x', d => xLinearScale(d.poverty))
+        .attr('y', d => yLinearScale(d.noHealthInsurance))
+        .text('', d => d.abbr); //healthData.abbr);
+
+    // Create axes labels
+    // y axis label
+    chartGroup.append('text')
+        .attr('transform', 'rotate(-90)')
+        .attr('y', 0 - margins.left + 40)
+        .attr('x', 0 - (chartHeight/2))
+        .attr('dy', '1em')
+        .attr('class', 'axisText')
+        .text('% Without Health Insurance');
+
+    // x axis label
+    chartGroup.append('text')
+        .attr('transform', `translate(${chartWidth/2}, ${chartHeight + margins.top + 20})`)
+        .attr('class', 'axisText')
+        .text('Poverty Rate');
 });
